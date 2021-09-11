@@ -1,3 +1,4 @@
+import chordpro.ChordProPlugin
 import chordpro.GenerateChordProPdfsTask
 
 /*
@@ -14,3 +15,5 @@ project.getPlugins().apply("base");
 project.getTasks().named("assemble").configure(task -> {
     task.dependsOn("generateChordProPdfs");
 });
+
+project.getPlugins().apply(ChordProPlugin.class);
