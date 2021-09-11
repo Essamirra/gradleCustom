@@ -24,3 +24,9 @@ abstract class GenerateChordProPdfsTask extends DefaultTask {
 }
 
 project.getTasks().register("generateChordProPdfs", GenerateChordProPdfsTask.class);
+
+
+project.getPlugins().apply("base");
+project.getTasks().named("assemble").configure(task -> {
+    task.dependsOn("generateChordProPdfs");
+});
