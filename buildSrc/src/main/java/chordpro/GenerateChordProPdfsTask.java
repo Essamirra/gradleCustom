@@ -1,8 +1,8 @@
 package chordpro;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.tasks.InputFile;
-import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.file.FileCollection;
+import org.gradle.api.tasks.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,10 +17,19 @@ public abstract class GenerateChordProPdfsTask extends DefaultTask {
     abstract File getConfig();
     abstract void setConfig(File config);
 
+    @PathSensitive(PathSensitivity.NAME_ONLY)
+    @InputFiles
+    abstract FileCollection getSources();
+    abstract void setSources(FileCollection sources);
+
+    @OutputDirectory
+    abstract File getOutputDir();
+    abstract void setOutputDir(File outputDir);
+
     @TaskAction
     void buildChord() throws Exception {
-        for (File choFile : getProject().fileTree("src").getFiles()) {
-            File pdfFile = new File(getProject().getBuildDir().getAbsolutePath(), removeExtension(choFile.getName()) + ".pdf");
+        for (File choFile : getSources()) {
+            File pdfFile = new File(getOutputDir(), removeExtension(choFile.getName()) + ".pdf");
             getProject().exec(execSpec -> {
                 try {
                     execSpec.setStandardOutput(new FileOutputStream(pdfFile));
