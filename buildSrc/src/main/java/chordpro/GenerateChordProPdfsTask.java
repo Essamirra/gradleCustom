@@ -11,14 +11,16 @@ import java.util.Arrays;
 
 import static org.gradle.internal.FileUtils.removeExtension;
 
+@CacheableTask
 public abstract class GenerateChordProPdfsTask extends DefaultTask {
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     abstract File getConfig();
     abstract void setConfig(File config);
 
-    @PathSensitive(PathSensitivity.NAME_ONLY)
     @InputFiles
+    @PathSensitive(PathSensitivity.NAME_ONLY)
     abstract FileCollection getSources();
     abstract void setSources(FileCollection sources);
 
